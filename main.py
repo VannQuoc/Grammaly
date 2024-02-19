@@ -1,6 +1,6 @@
 from flask import Flask, request
 import requests
-
+#CODE BY LE VAN QUOC
 app = Flask(__name__)
 
 @app.route('/')
@@ -33,12 +33,13 @@ def get_cookies():
 
         try:
             response = requests.get('https://subscription.grammarly.com/api/v2/subscription', headers=headers)
-            data = response.json()
-            is_premium = data.get('isPremium')
-            if is_premium == False:
-              return "Soucre Code By VannQuoc IS ME"
-            else:
-             return "Mua Full Source Code Inbox Telegram:@MonLeoHayKhok"
+            if response.status_code==200:
+                data = response.json()
+                is_premium = data.get('isPremium')
+                if is_premium == False:
+                    return "Soucre Code By VannQuoc IS ME"
+                else:
+                    return "Mua Full Source Code Inbox Telegram:@MonLeoHayKhok"
         except ValueError as e:
             print(f"Error parsing JSON: {e}")
 
@@ -70,11 +71,12 @@ def check_acc():
 
         try:
             response = requests.get('https://auth.grammarly.com/v3/user?app=account&field=frontend_role&field=frontend_teamType&field=frontend_industryType&field=frontend_companySize&field=frontend_graduationYear&field=frontend_seniority&permissions=all', headers=headers)
-            response_json = response.json()
-            email = response_json.get("email", "")
-            login_type = response_json.get("loginType", "")
-            grammaly_edu = response_json.get("grammarlyEdu", "")
-            return f'EMAIL: {email} Login Type: {login_type} Grammarly Edu:{grammaly_edu}'
+            if response.status_code == 200:
+                response_json = response.json()
+                email = response_json.get("email", "")
+                login_type = response_json.get("loginType", "")
+                grammaly_edu = response_json.get("grammarlyEdu", "")
+                return f'EMAIL: {email} Login Type: {login_type} Grammarly Edu:{grammaly_edu}'
         except ValueError as e:
             print(f"Error parsing JSON: {e}")
 if __name__ == '__main__':
